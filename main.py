@@ -13,7 +13,7 @@ city_name_to_id = class_scout.fetch_cities()
 # Prompt the user for city until a valid city name is provided (validation to prevent KeyError on typos).
 while True:
     selected_city = (
-        input("In which city are you looking for activities: ").strip().capitalize()
+        input("In which city are you looking for activities: ").strip().title()
     )
 
     if selected_city in city_name_to_id:
