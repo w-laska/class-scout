@@ -53,9 +53,11 @@ python main.py
 ## Legal & data
 
 - This is a non-commercial, educational portfolio project.
-- The scraper respects `robots.txt`. The city list is currently fetched from
-  an `/ajax/` path that `robots.txt` disallows; this will be replaced with a
-  local city mapping in the next version.
+- The scraper respects `robots.txt`, which disallows the `/ajax/` path for
+  automated clients. City IDs are stored in `cities.json`; they were
+  collected manually in a web browser on 2 November 2026. All URLs requested
+  by the scraper are allowed by `robots.txt` (checked with Python's
+  `urllib.robotparser`).
 - Requests are spaced out with a delay, and outdated courses are filtered out
   before detail pages are fetched, to keep the load on the server low.
 - The scraper only notifies; it never signs up for courses automatically.
