@@ -7,17 +7,14 @@ import requests
 
 class ClassScout:
     """
-    Main scraper class for "StrefaZajec.pl"
-    Handles connection pooling, fetching city IDs and retrieving course HTML.
+    Scraper class for "StrefaZajec.pl"
+    Reuses one HTTP (connection pooling) for all requests and
+    downloads course listing and detail pages.
     """
 
     def __init__(self):
         # Base URL for the paginated course search result
         self.courses_url = "https://www.strefazajec.pl/course"
-        # AJAX URL to retrieve a JSON mapping of Polish cities to internal IDs
-        self.cities_api_url = (
-            "https://www.strefazajec.pl/ajax/biggestcities/filename/cities.json"
-        )
         # Use a browser-like User-Agent for standard HTTP requests.
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -28,21 +25,6 @@ class ClassScout:
         self.session = requests.Session()
         # Attach the headers to the session
         self.session.headers.update(self.headers)
-
-    def fetch_cities(self) -> dict:
-        """
-        Fetches the JSON mapping of Polish cities to their internal IDs, which are required for search query parameters
-        Returns:
-            dict: A dictionary where the keys are city names and
-            the values are their corresponding IDs {"Warszawa": 1, ...}.
-        """
-        cities_response = self.session.get(self.cities_api_url, timeout=10)
-        cities_data = cities_response.json()
-        cities_list = cities_data["cities"]
-        city_name_to_id = {}
-        for city in cities_list:
-            city_name_to_id[city["value"]] = int(city["id"])
-        return city_name_to_id
 
     def fetch_page(self, url: str, params: dict | None = None) -> str:
         """
