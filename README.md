@@ -59,7 +59,9 @@ python main.py
   by the scraper are allowed by `robots.txt` (checked with Python's
   `urllib.robotparser`).
 - Requests are spaced out with a delay, and outdated courses are filtered out
-  before detail pages are fetched, to keep the load on the server low.
+  before detail pages are fetched, to keep the load on the server low. Failed
+  requests are retried at most 3 times, with increasing delays, and the
+  server's `Retry-After` header is respected.
 - The scraper only notifies; it never signs up for courses automatically.
 - Personal data (names of instructors and review authors) will not be shown
   in the public demo.
